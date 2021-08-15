@@ -1,0 +1,44 @@
+import java.nio.charset.StandardCharsets
+
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.0.0"
+}
+
+apply plugin: 'idea'
+apply plugin: 'java-library'
+
+group 'fr.fistin'
+version '1.0.0-SNAPSHOT'
+archivesBaseName = 'FistinLimbo'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+compileJava {
+    targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = StandardCharsets.UTF_8
+}
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.fistin.limbo.LimboBootstrap'
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.runtimeClasspath]
+    manifest {
+        attributes 'Main-Class': 'fr.fistin.limbo.LimboBootstrap'
+    }
+}
+
+dependencies {
+    implementation 'jline:jline:2.14.6'
+}
