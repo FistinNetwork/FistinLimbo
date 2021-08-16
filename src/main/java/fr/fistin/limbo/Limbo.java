@@ -1,5 +1,7 @@
 package fr.fistin.limbo;
 
+import fr.fistin.limbo.command.LimboCommandManager;
+import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.util.References;
 import fr.fistin.limbo.util.logger.LimboLogger;
 import fr.fistin.limbo.util.logger.LoggingOutputStream;
@@ -23,15 +25,15 @@ import java.util.zip.GZIPInputStream;
  */
 public class Limbo {
 
-    /** Logger */
-    private ConsoleReader consoleReader;
-    private static LimboLogger logger;
-
-    /** Configuration */
-    private final LimboConfiguration limboConfiguration;
+    /** Command */
+    private LimboCommandManager commandManager;
 
     /** Network */
     private NetworkManager networkManager;
+
+    /** Logger */
+    private ConsoleReader consoleReader;
+    private static LimboLogger logger;
 
     /** World */
     private World world;
@@ -39,12 +41,19 @@ public class Limbo {
     /** Limbo Global Information */
     private boolean running;
 
+    /** Configuration */
+    private final LimboConfiguration limboConfiguration;
+
     protected Limbo(LimboConfiguration limboConfiguration) {
         this.limboConfiguration = limboConfiguration;
     }
 
     public void start() {
+        LimboLogger.printHeaderMessage();
+
         this.setupLogger();
+
+        System.out.println("Starting FistinLimbo...");
 
         this.loadWorld(limboConfiguration.getSchematicFile());
 
@@ -85,42 +94,34 @@ public class Limbo {
 
             System.out.println("World successfully loaded!");
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, ex.getMessage(), ex);
+            ex.printStackTrace();
 
             System.out.println("Couldn't load world: loading failed!");
         }
     }
 
     private void run() {
-        this.networkManager = new NetworkManager(this.world, this.limboConfiguration);
         this.running = true;
+        this.networkManager = new NetworkManager(this);
+        this.commandManager = new LimboCommandManager(this);
 
-        try {
-            this.networkManager.bind(this.limboConfiguration.getIp(), this.limboConfiguration.getPort());
-
-            logger.info("Listening on port " + this.limboConfiguration.getPort());
-
-            while (this.running) {
-                this.networkManager.select();
-            }
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, ex.getMessage(), ex);
-        }
+        this.commandManager.start();
+        this.networkManager.start();
     }
 
     public void stop() {
         this.running = false;
-        this.networkManager.stop();
+        this.networkManager.shutdown();
+        this.commandManager.shutdown();
+
+        System.out.println("FistinLimbo is now down, see you soon!");
 
         this.waitLogger();
     }
 
     private void waitLogger() {
         try {
-            if (logger.getDispatcher().getQueue().isEmpty()) {
-                System.exit(0);
-            }
-            else {
+            if (!logger.getDispatcher().getQueue().isEmpty()) {
                 Thread.sleep(500);
                 this.waitLogger();
             }
@@ -129,8 +130,24 @@ public class Limbo {
         }
     }
 
+    public LimboConfiguration getLimboConfiguration() {
+        return this.limboConfiguration;
+    }
+
+    public boolean isRunning() {
+        return this.running;
+    }
+
     public ConsoleReader getConsoleReader() {
         return this.consoleReader;
+    }
+
+    public NetworkManager getNetworkManager() {
+        return this.networkManager;
+    }
+
+    public LimboCommandManager getCommandManager() {
+        return this.commandManager;
     }
 
     public static Logger getLogger() {

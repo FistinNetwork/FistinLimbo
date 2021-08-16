@@ -1,6 +1,6 @@
 package fr.fistin.limbo.world;
 
-import fr.fistin.limbo.PlayerConnection;
+import fr.fistin.limbo.packets.PlayerConnection;
 import fr.fistin.limbo.packets.PacketSerializer;
 
 import java.io.ByteArrayOutputStream;

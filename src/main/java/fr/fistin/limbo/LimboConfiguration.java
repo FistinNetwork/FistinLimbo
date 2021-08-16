@@ -113,15 +113,15 @@ public class LimboConfiguration {
         return this.spawnZ;
     }
 
-    short getPort() {
+    public short getPort() {
         return this.port;
     }
 
-    String getIp() {
+    public String getIp() {
         return this.ip;
     }
 
-    String getSchematicFile() {
+    public String getSchematicFile() {
         return this.schematicFile;
     }
 

@@ -51,20 +51,18 @@ public class LimboLogger extends Logger {
         super.log(record);
     }
 
-    public void printHeaderMessage() {
-        this.log(Level.INFO,"########################################");
-        this.log(Level.INFO,"#####          Welcome in          #####");
-        this.log(Level.INFO,"#####    Hydra - Fistin Network    #####");
-        this.log(Level.INFO,"##### Authors: Faustin - AstFaster #####");
-        this.log(Level.INFO,"########################################");
-    }
+    public static void printHeaderMessage() {
+        final String text =
+                        "$$$$$$$$\\ $$\\             $$\\     $$\\           $$\\       $$\\               $$\\                 \n" +
+                        "$$  _____|\\__|            $$ |    \\__|          $$ |      \\__|              $$ |                \n" +
+                        "$$ |      $$\\  $$$$$$$\\ $$$$$$\\   $$\\ $$$$$$$\\  $$ |      $$\\ $$$$$$\\$$$$\\  $$$$$$$\\   $$$$$$\\  \n" +
+                        "$$$$$\\    $$ |$$  _____|\\_$$  _|  $$ |$$  __$$\\ $$ |      $$ |$$  _$$  _$$\\ $$  __$$\\ $$  __$$\\ \n" +
+                        "$$  __|   $$ |\\$$$$$$\\    $$ |    $$ |$$ |  $$ |$$ |      $$ |$$ / $$ / $$ |$$ |  $$ |$$ /  $$ |\n" +
+                        "$$ |      $$ | \\____$$\\   $$ |$$\\ $$ |$$ |  $$ |$$ |      $$ |$$ | $$ | $$ |$$ |  $$ |$$ |  $$ |\n" +
+                        "$$ |      $$ |$$$$$$$  |  \\$$$$  |$$ |$$ |  $$ |$$$$$$$$\\ $$ |$$ | $$ | $$ |$$$$$$$  |\\$$$$$$  |\n" +
+                        "\\__|      \\__|\\_______/    \\____/ \\__|\\__|  \\__|\\________|\\__|\\__| \\__| \\__|\\_______/  \\______/ ";
 
-    public void printFooterMessage() {
-        this.log(Level.INFO,"########################################");
-        this.log(Level.INFO,"#####           Stopping           #####");
-        this.log(Level.INFO,"#####    Hydra - Fistin Network    #####");
-        this.log(Level.INFO,"##### Authors: Faustin - AstFaster #####");
-        this.log(Level.INFO,"########################################");
+        System.out.println(text.replaceAll("\\$", "█"));
     }
 
     public LogDispatcher getDispatcher() {
