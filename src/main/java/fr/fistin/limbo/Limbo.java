@@ -42,10 +42,10 @@ public class Limbo {
     private boolean running;
 
     /** Configuration */
-    private final LimboConfiguration limboConfiguration;
+    private final LimboConfiguration configuration;
 
-    protected Limbo(LimboConfiguration limboConfiguration) {
-        this.limboConfiguration = limboConfiguration;
+    protected Limbo(LimboConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     public void start() {
@@ -55,7 +55,7 @@ public class Limbo {
 
         System.out.println("Starting FistinLimbo...");
 
-        this.loadWorld(limboConfiguration.getSchematicFile());
+        this.loadWorld(configuration.getSchematicFile());
 
         if (this.world != null) {
             Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
@@ -130,8 +130,8 @@ public class Limbo {
         }
     }
 
-    public LimboConfiguration getLimboConfiguration() {
-        return this.limboConfiguration;
+    public LimboConfiguration getConfiguration() {
+        return this.configuration;
     }
 
     public boolean isRunning() {

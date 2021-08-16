@@ -1,8 +1,10 @@
-package fr.fistin.limbo.network.packet.login;
+package fr.fistin.limbo.network.packet.model.login;
 
+import fr.fistin.limbo.LimboConfiguration;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
+import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.player.PlayerConnection;
 import io.netty.buffer.ByteBuf;
 
@@ -25,8 +27,19 @@ public class PacketLoginInStart extends PacketInput {
     @Override
     public void handlePacket(NetworkManager networkManager, PlayerConnection playerConnection) {
         playerConnection.getProfile().setUsername(this.username);
-
         playerConnection.sendPacket(new PacketLoginOutSuccess(playerConnection.getProfile()));
+        playerConnection.setState(ProtocolState.PLAY);
+
+        this.sendJoinGamePacket(playerConnection);
+    }
+
+    private void sendJoinGamePacket(PlayerConnection playerConnection) {
+        final LimboConfiguration configuration = playerConnection.getLimbo().getConfiguration();
+        final byte gamemode = configuration.getGameMode();
+        final byte dimension = configuration.getDimension();
+        final boolean reducedDebugInfo = configuration.isReducedDebugInfo();
+
+        playerConnection.getProtocol().sendJoinGame(playerConnection, 1, gamemode, dimension, (byte) 0, (byte) 1, "default", reducedDebugInfo);
     }
 
 }

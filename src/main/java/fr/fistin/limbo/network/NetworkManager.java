@@ -69,7 +69,7 @@ public class NetworkManager {
                 .childHandler(new ServerInitializer(this.limbo));
 
         try {
-            final Channel channel = bootstrap.bind(limbo.getLimboConfiguration().getIp(), limbo.getLimboConfiguration().getPort()).sync().channel();
+            final Channel channel = bootstrap.bind(limbo.getConfiguration().getIp(), limbo.getConfiguration().getPort()).sync().channel();
 
             System.out.println("Listening on " + channel.localAddress().toString());
 

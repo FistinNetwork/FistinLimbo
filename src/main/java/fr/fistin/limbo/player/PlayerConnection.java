@@ -5,7 +5,7 @@ import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
-import fr.fistin.limbo.network.packet.login.PacketLoginOutDisconnect;
+import fr.fistin.limbo.network.packet.model.login.PacketLoginOutDisconnect;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
@@ -99,6 +99,10 @@ public class PlayerConnection {
 
     public void destroy() {
 
+    }
+
+    public Limbo getLimbo() {
+        return this.limbo;
     }
 
     public Channel getChannel() {

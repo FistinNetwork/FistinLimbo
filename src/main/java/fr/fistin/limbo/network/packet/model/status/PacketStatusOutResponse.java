@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.status;
+package fr.fistin.limbo.network.packet.model.status;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;

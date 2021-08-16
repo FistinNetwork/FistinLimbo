@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.handshake;
+package fr.fistin.limbo.network.packet.model;
 
 import fr.fistin.limbo.Limbo;
 import fr.fistin.limbo.network.NetworkManager;

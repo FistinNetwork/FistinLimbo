@@ -3,6 +3,8 @@ package fr.fistin.limbo.network.protocol;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketOutput;
+import fr.fistin.limbo.player.PlayerConnection;
+import fr.fistin.limbo.world.Chunk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +51,14 @@ public abstract class AbstractProtocol {
             this.registryOut.get(state).put(packetId, packetClass);
         }
     }
+
+    public abstract void sendJoinGame(PlayerConnection playerConnection, int entityId, byte gameMode, byte dimension, byte difficulty, byte maxPlayers, String levelType, boolean debugInfo);
+
+    public abstract void sendPosition(PlayerConnection playerConnection, double x, double y, double z, float yaw, float pitch);
+
+    public abstract void sendKeepAlive(PlayerConnection playerConnection, int id);
+
+    public abstract void sendChunk(PlayerConnection playerConnection, Chunk chunk);
 
     public abstract ProtocolVersion[] getVersions();
 

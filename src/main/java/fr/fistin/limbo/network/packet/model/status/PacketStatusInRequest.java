@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.status;
+package fr.fistin.limbo.network.packet.model.status;
 
 import com.google.gson.JsonObject;
 import fr.fistin.limbo.network.NetworkManager;
