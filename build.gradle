@@ -42,5 +42,5 @@ shadowJar {
 dependencies {
     implementation 'io.netty:netty-all:4.1.66.Final'
     implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'jline:jline:2.14.6'
+    implementation 'jline:jline:3.0.0.M1'
 }
