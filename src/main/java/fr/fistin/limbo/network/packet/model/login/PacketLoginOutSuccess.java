@@ -2,7 +2,6 @@ package fr.fistin.limbo.network.packet.model.login;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
-import fr.fistin.limbo.player.GameProfile;
 import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;

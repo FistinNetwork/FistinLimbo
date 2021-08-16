@@ -3,6 +3,7 @@ package fr.fistin.limbo.network.packet;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 public class PacketSerializer {
 
@@ -74,5 +75,6 @@ public class PacketSerializer {
     public static void writeString(ByteBuf buf, String str) {
         writeByteArray(buf, str.getBytes(StandardCharsets.UTF_8));
     }
+
 
 }

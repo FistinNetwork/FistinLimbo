@@ -49,12 +49,37 @@ public class Protocol47 extends AbstractProtocol {
     private void registerPlay() {
         this.registerPacketOut(ProtocolState.PLAY, 0x00, PacketPlayOutKeepAlive47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x01, PacketPlayOutJoinGame47.class);
+        this.registerPacketOut(ProtocolState.PLAY, 0x02, PacketPlayOutChatMessage47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x08, PacketPlayOutPositionAndLook47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x21, PacketPlayOutChunkData47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x40, PacketOutDisconnect.class);
 
         this.registerPacketIn(ProtocolState.PLAY, 0x00, PacketPlayInKeepAlive47.class);
-        this.registerPacketIn(ProtocolState.PLAY, 0x04, PacketInEmpty.class);
+        this.registerPacketIn(ProtocolState.PLAY, 0x01, PacketPlayInChatMessage.class);//Chat message
+        this.registerPacketIn(ProtocolState.PLAY, 0x02, PacketInEmpty.class);//Use entity
+        this.registerPacketIn(ProtocolState.PLAY, 0x03, PacketInEmpty.class);//Player (ground)
+        this.registerPacketIn(ProtocolState.PLAY, 0x04, PacketInEmpty.class);//Player position
+        this.registerPacketIn(ProtocolState.PLAY, 0x05, PacketInEmpty.class);//Player look
+        this.registerPacketIn(ProtocolState.PLAY, 0x06, PacketInEmpty.class);//Player position and look
+        this.registerPacketIn(ProtocolState.PLAY, 0x07, PacketInEmpty.class);//Player digging
+        this.registerPacketIn(ProtocolState.PLAY, 0x08, PacketInEmpty.class);//Block placement
+        this.registerPacketIn(ProtocolState.PLAY, 0x09, PacketInEmpty.class);//Held item change
+        this.registerPacketIn(ProtocolState.PLAY, 0x0A, PacketInEmpty.class);//Animation
+        this.registerPacketIn(ProtocolState.PLAY, 0x0B, PacketInEmpty.class);//Entity action
+        this.registerPacketIn(ProtocolState.PLAY, 0x0C, PacketInEmpty.class);//Steer vehicle
+        this.registerPacketIn(ProtocolState.PLAY, 0x0D, PacketInEmpty.class);//Close window
+        this.registerPacketIn(ProtocolState.PLAY, 0x0E, PacketInEmpty.class);//Click window
+        this.registerPacketIn(ProtocolState.PLAY, 0x0F, PacketInEmpty.class);//Confirm transaction
+        this.registerPacketIn(ProtocolState.PLAY, 0x10, PacketInEmpty.class);//Creative inventory action
+        this.registerPacketIn(ProtocolState.PLAY, 0x11, PacketInEmpty.class);//Enchant item
+        this.registerPacketIn(ProtocolState.PLAY, 0x12, PacketInEmpty.class);//Update sign
+        this.registerPacketIn(ProtocolState.PLAY, 0x13, PacketInEmpty.class);//Player abilities
+        this.registerPacketIn(ProtocolState.PLAY, 0x14, PacketInEmpty.class);//Tab complete
+        this.registerPacketIn(ProtocolState.PLAY, 0x15, PacketInEmpty.class);//Client Settings
+        this.registerPacketIn(ProtocolState.PLAY, 0x16, PacketInEmpty.class);//Client status
+        this.registerPacketIn(ProtocolState.PLAY, 0x17, PacketInEmpty.class);//Plugin message
+        this.registerPacketIn(ProtocolState.PLAY, 0x18, PacketInEmpty.class);//Spectate
+        this.registerPacketIn(ProtocolState.PLAY, 0x19, PacketInEmpty.class);//Resource pack status
     }
 
     @Override
