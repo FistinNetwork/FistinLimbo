@@ -1,7 +1,6 @@
 package fr.fistin.limbo.network.packet.status;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
-import fr.fistin.limbo.network.packet.PacketSerializer;
 import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
