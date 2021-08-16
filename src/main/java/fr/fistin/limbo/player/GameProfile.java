@@ -12,10 +12,7 @@ public class GameProfile {
     private UUID uuid;
     private String username;
 
-    public GameProfile() {
-        this.uuid = UUID.randomUUID();
-        this.username = "";
-    }
+    public GameProfile() {}
 
     public GameProfile(UUID uuid, String username) {
         this.uuid = uuid;

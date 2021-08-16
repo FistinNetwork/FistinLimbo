@@ -138,6 +138,10 @@ public class Limbo {
         return this.running;
     }
 
+    public World getWorld() {
+        return this.world;
+    }
+
     public ConsoleReader getConsoleReader() {
         return this.consoleReader;
     }

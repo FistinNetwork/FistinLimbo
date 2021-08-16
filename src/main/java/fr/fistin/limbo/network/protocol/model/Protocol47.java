@@ -5,9 +5,7 @@ import fr.fistin.limbo.network.packet.model.PacketInEmpty;
 import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
 import fr.fistin.limbo.network.packet.model.login.PacketLoginInStart;
 import fr.fistin.limbo.network.packet.model.login.PacketLoginOutSuccess;
-import fr.fistin.limbo.network.packet.model.play.PacketPlayInKeepAlive47;
-import fr.fistin.limbo.network.packet.model.play.PacketPlayOutJoinGame47;
-import fr.fistin.limbo.network.packet.model.play.PacketPlayOutKeepAlive47;
+import fr.fistin.limbo.network.packet.model.play.*;
 import fr.fistin.limbo.network.packet.model.status.PacketStatusInPing;
 import fr.fistin.limbo.network.packet.model.status.PacketStatusInRequest;
 import fr.fistin.limbo.network.packet.model.status.PacketStatusOutPong;
@@ -51,6 +49,8 @@ public class Protocol47 extends AbstractProtocol {
     private void registerPlay() {
         this.registerPacketOut(ProtocolState.PLAY, 0x00, PacketPlayOutKeepAlive47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x01, PacketPlayOutJoinGame47.class);
+        this.registerPacketOut(ProtocolState.PLAY, 0x08, PacketPlayOutPositionAndLook47.class);
+        this.registerPacketOut(ProtocolState.PLAY, 0x21, PacketPlayOutChunkData47.class);
         this.registerPacketOut(ProtocolState.PLAY, 0x40, PacketOutDisconnect.class);
 
         this.registerPacketIn(ProtocolState.PLAY, 0x00, PacketPlayInKeepAlive47.class);
@@ -64,7 +64,7 @@ public class Protocol47 extends AbstractProtocol {
 
     @Override
     public void sendPosition(PlayerConnection playerConnection, double x, double y, double z, float yaw, float pitch) {
-
+        playerConnection.sendPacket(new PacketPlayOutPositionAndLook47(x, y, z, yaw, pitch, (byte) 0));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Protocol47 extends AbstractProtocol {
 
     @Override
     public void sendChunk(PlayerConnection playerConnection, Chunk chunk) {
-
+        playerConnection.sendPacket(new PacketPlayOutChunkData47(chunk));
     }
 
     @Override

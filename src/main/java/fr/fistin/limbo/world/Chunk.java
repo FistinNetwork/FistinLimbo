@@ -97,8 +97,7 @@ public class Chunk
         return byteArrayOutputStream.toByteArray();
     }
 
-    public void sendTileEntities(PlayerConnection player)
-    {
+    public void sendTileEntities(PlayerConnection player) {
         this.tileEntities.stream().filter(tileEntity -> (tileEntity instanceof SignTileEntity)).forEach(tileEntity -> player.getProtocol().sendSign(player, (SignTileEntity) tileEntity));
     }
 

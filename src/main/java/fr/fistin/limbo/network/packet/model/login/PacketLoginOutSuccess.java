@@ -6,6 +6,7 @@ import fr.fistin.limbo.player.GameProfile;
 import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Project: FistinLimbo
@@ -14,16 +15,18 @@ import java.io.IOException;
  */
 public class PacketLoginOutSuccess extends PacketOutput {
 
-    private final GameProfile profile;
+    private final String username;
+    private final UUID uuid;
 
-    public PacketLoginOutSuccess(GameProfile profile) {
-        this.profile = profile;
+    public PacketLoginOutSuccess(String username, UUID uuid) {
+        this.username = username;
+        this.uuid = uuid;
     }
 
     @Override
     public void write(ByteBuf byteBuf) throws IOException {
-        PacketSerializer.writeString(byteBuf, profile.getUuid().toString());
-        PacketSerializer.writeString(byteBuf, profile.getUsername());
+        PacketSerializer.writeString(byteBuf, this.uuid.toString());
+        PacketSerializer.writeString(byteBuf, this.username);
     }
 
 }
