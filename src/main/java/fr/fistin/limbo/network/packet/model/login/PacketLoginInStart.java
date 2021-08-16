@@ -31,6 +31,8 @@ public class PacketLoginInStart extends PacketInput {
         playerConnection.setState(ProtocolState.PLAY);
 
         this.sendJoinGamePacket(playerConnection);
+
+        playerConnection.startKeepAliveFuture();
     }
 
     private void sendJoinGamePacket(PlayerConnection playerConnection) {

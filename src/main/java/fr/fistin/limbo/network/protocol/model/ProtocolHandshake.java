@@ -2,7 +2,7 @@ package fr.fistin.limbo.network.protocol.model;
 
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.model.PacketHandshake;
-import fr.fistin.limbo.network.packet.model.login.PacketLoginOutDisconnect;
+import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
@@ -21,7 +21,7 @@ public class ProtocolHandshake extends AbstractProtocol {
 
         this.registerPacketIn(ProtocolState.HANDSHAKE, 0x00, PacketHandshake.class);
 
-        this.registerPacketOut(ProtocolState.HANDSHAKE, 0x00, PacketLoginOutDisconnect.class);
+        this.registerPacketOut(ProtocolState.HANDSHAKE, 0x00, PacketOutDisconnect.class);
     }
 
     @Override

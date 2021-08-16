@@ -55,7 +55,6 @@ public class ChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
             this.limbo.getNetworkManager().getPlayersConnections().remove(this.playerConnection);
 
             this.playerConnection.destroy();
-            this.playerConnection = null;
         }
     }
 

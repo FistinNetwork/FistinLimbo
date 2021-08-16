@@ -5,7 +5,7 @@ import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
-import fr.fistin.limbo.network.packet.model.login.PacketLoginOutDisconnect;
+import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
@@ -16,6 +16,8 @@ import io.netty.channel.Channel;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Project: FistinLimbo
@@ -23,6 +25,12 @@ import java.net.InetSocketAddress;
  * on 16/08/2021 at 09:32
  */
 public class PlayerConnection {
+
+    private int keepAliveId;
+
+    private ScheduledFuture<?> keepAliveFuture;
+
+    private long lastKeepAlive;
 
     private AbstractProtocol protocol;
     private ProtocolState state;
@@ -45,6 +53,8 @@ public class PlayerConnection {
         this.inetAddress = (InetSocketAddress) channel.remoteAddress();
         this.state = ProtocolState.HANDSHAKE;
         this.protocol = this.networkManager.getProtocolByVersion(ProtocolVersion.HANDSHAKE);
+        this.lastKeepAlive = System.currentTimeMillis();
+        this.keepAliveId = 0;
     }
 
     public void handlePacket(ByteBuf byteBuf) throws IOException {
@@ -91,14 +101,22 @@ public class PlayerConnection {
 
     public void disconnect(String reason) {
         if (reason != null) {
-            if (this.state == ProtocolState.HANDSHAKE || this.state == ProtocolState.LOGIN) {
-                this.sendPacket(new PacketLoginOutDisconnect(reason));
+            if (this.state != ProtocolState.STATUS) {
+                this.sendPacket(new PacketOutDisconnect(reason));
             }
         }
+
+        this.channel.close();
     }
 
     public void destroy() {
+        if (this.keepAliveFuture != null) {
+            this.keepAliveFuture.cancel(false);
+        }
+    }
 
+    public void startKeepAliveFuture() {
+        this.keepAliveFuture = this.channel.eventLoop().scheduleAtFixedRate(() -> this.protocol.sendKeepAlive(this, this.keepAliveId), 5, 10, TimeUnit.SECONDS);
     }
 
     public Limbo getLimbo() {
@@ -143,6 +161,22 @@ public class PlayerConnection {
 
     public void setProtocol(AbstractProtocol protocol) {
         this.protocol = protocol;
+    }
+
+    public long getLastKeepAlive() {
+        return this.lastKeepAlive;
+    }
+
+    public void setLastKeepAlive(long lastKeepAlive) {
+        this.lastKeepAlive = lastKeepAlive;
+    }
+
+    public int getKeepAliveId() {
+        return this.keepAliveId;
+    }
+
+    public void setKeepAliveId(int keepAliveId) {
+        this.keepAliveId = keepAliveId;
     }
 
 }

@@ -27,10 +27,10 @@ import java.util.List;
  */
 public class NetworkManager {
 
+    private EventLoopGroup bossGroup;
+
     private final List<AbstractProtocol> protocols;
     private final List<PlayerConnection> playersConnections;
-
-    private EventLoopGroup bossGroup;
 
     private final Limbo limbo;
 

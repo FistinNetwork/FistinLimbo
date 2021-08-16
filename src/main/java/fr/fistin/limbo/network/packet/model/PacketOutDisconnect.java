@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.model.login;
+package fr.fistin.limbo.network.packet.model;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
@@ -11,11 +11,11 @@ import java.io.IOException;
  * Created by AstFaster
  * on 16/08/2021 at 10:45
  */
-public class PacketLoginOutDisconnect extends PacketOutput {
+public class PacketOutDisconnect extends PacketOutput {
 
     private final String json;
 
-    public PacketLoginOutDisconnect(String message) {
+    public PacketOutDisconnect(String message) {
         this.json = "{\"text\":\"" + message.replaceAll("\"", "\\\"") + "\"}";
     }
 
