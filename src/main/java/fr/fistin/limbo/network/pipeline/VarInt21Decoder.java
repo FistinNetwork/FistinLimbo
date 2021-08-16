@@ -30,8 +30,7 @@ public class VarInt21Decoder extends ByteToMessageDecoder {
 
             buf[i] = in.readByte();
             if (buf[i] >= 0) {
-                final PacketSerializer packetSerializer = new PacketSerializer(Unpooled.wrappedBuffer(buf));
-                final int length = packetSerializer.readVarInt();
+                final int length = PacketSerializer.readVarInt(Unpooled.wrappedBuffer(buf));
 
                 if (in.readableBytes() < length) {
                     in.resetReaderIndex();

@@ -2,12 +2,13 @@ package fr.fistin.limbo.network.packet.handshake;
 
 import fr.fistin.limbo.Limbo;
 import fr.fistin.limbo.network.NetworkManager;
+import fr.fistin.limbo.network.packet.PacketSerializer;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.packet.PacketInput;
-import fr.fistin.limbo.network.packet.PacketSerializer;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
+import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
@@ -24,11 +25,11 @@ public class PacketHandshake extends PacketInput {
     private int nextState;
 
     @Override
-    public void read(PacketSerializer packetSerializer) throws IOException {
-        this.version = ProtocolVersion.getVersionById(packetSerializer.readVarInt());
-        this.handshakeAddress = packetSerializer.readString();
-        this.handshakePort = (short) packetSerializer.readUnsignedShort();
-        this.nextState = packetSerializer.readVarInt();
+    public void read(ByteBuf byteBuf) throws IOException {
+        this.version = ProtocolVersion.getVersionById(PacketSerializer.readVarInt(byteBuf));
+        this.handshakeAddress = PacketSerializer.readString(byteBuf);
+        this.handshakePort = (short) byteBuf.readUnsignedShort();
+        this.nextState = PacketSerializer.readVarInt(byteBuf);
     }
 
     @Override

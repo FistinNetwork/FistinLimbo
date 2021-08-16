@@ -2,6 +2,7 @@ package fr.fistin.limbo.network.packet.status;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
+import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
@@ -19,8 +20,8 @@ public class PacketStatusOutResponse extends PacketOutput {
     }
 
     @Override
-    public void write(PacketSerializer packetSerializer) throws IOException {
-        packetSerializer.writeString(this.response);
+    public void write(ByteBuf byteBuf) throws IOException {
+        PacketSerializer.writeString(byteBuf, this.response);
     }
 
 }

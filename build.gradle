@@ -1,7 +1,7 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 apply plugin: 'idea'
@@ -42,5 +42,5 @@ shadowJar {
 dependencies {
     implementation 'io.netty:netty-all:4.1.66.Final'
     implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'jline:jline:3.0.0.M1'
+    implementation 'jline:jline:2.14.6'
 }

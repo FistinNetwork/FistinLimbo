@@ -3,7 +3,7 @@ package fr.fistin.limbo.network.packet.status;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.packet.PacketInput;
-import fr.fistin.limbo.network.packet.PacketSerializer;
+import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
@@ -17,8 +17,8 @@ public class PacketStatusInPing extends PacketInput {
     private long id;
 
     @Override
-    public void read(PacketSerializer packetSerializer) throws IOException {
-        this.id = packetSerializer.readLong();
+    public void read(ByteBuf byteBuf) throws IOException {
+        this.id = byteBuf.readLong();
     }
 
     @Override

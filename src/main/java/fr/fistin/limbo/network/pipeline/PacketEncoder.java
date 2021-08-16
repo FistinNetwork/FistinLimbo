@@ -17,11 +17,9 @@ public class PacketEncoder extends MessageToByteEncoder<PacketOutput> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, PacketOutput packet, ByteBuf out) throws IOException {
-        final PacketSerializer packetSerializer = new PacketSerializer(out);
+        PacketSerializer.writeVarInt(out, packet.getId());
 
-        packetSerializer.writeVarInt(packet.getId());
-
-        packet.write(packetSerializer);
+        packet.write(out);
     }
 
 }

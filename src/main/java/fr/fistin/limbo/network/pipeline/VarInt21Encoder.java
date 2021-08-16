@@ -13,33 +13,16 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class VarInt21Encoder extends MessageToByteEncoder<ByteBuf> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, ByteBuf msg, ByteBuf out) throws Exception {
-        final PacketSerializer serializer = new PacketSerializer(msg);
-
+    protected void encode(ChannelHandlerContext ctx, ByteBuf msg, ByteBuf out) {
         final int bodyLen = msg.readableBytes();
-        final int headerLen = this.getVarIntSize(bodyLen);
+        final int headerLen = PacketSerializer.getVarIntSize(bodyLen);
 
         out.ensureWritable(headerLen + bodyLen);
 
-        serializer.writeVarInt(bodyLen);
+        PacketSerializer.writeVarInt(out, bodyLen);
 
         out.writeBytes(msg);
     }
 
-    private int getVarIntSize(int paramInt) {
-        if ((paramInt & 0xFFFFFF80) == 0)
-            return 1;
-
-        if ((paramInt & 0xFFFFC000) == 0)
-            return 2;
-
-        if ((paramInt & 0xFFE00000) == 0)
-            return 3;
-
-        if ((paramInt & 0xF0000000) == 0)
-            return 4;
-
-        return 5;
-    }
 
 }

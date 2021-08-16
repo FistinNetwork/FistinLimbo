@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.packet.PacketInput;
-import fr.fistin.limbo.network.packet.PacketSerializer;
+import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PacketStatusInRequest extends PacketInput {
 
     @Override
-    public void read(PacketSerializer packetSerializer) throws IOException {}
+    public void read(ByteBuf byteBuf) throws IOException {}
 
     @Override
     public void handlePacket(NetworkManager networkManager, PlayerConnection playerConnection) {

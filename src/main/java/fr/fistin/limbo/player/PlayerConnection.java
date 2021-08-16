@@ -48,8 +48,7 @@ public class PlayerConnection {
     public void handlePacket(ByteBuf byteBuf) throws IOException {
         try {
             if (!(byteBuf instanceof EmptyByteBuf)) {
-                final PacketSerializer packetSerializer = new PacketSerializer(byteBuf);
-                final int packetId = packetSerializer.readVarInt();
+                final int packetId = PacketSerializer.readVarInt(byteBuf);
 
                 if (this.protocol != null) {
                     final Class<? extends PacketInput> packetClass = this.protocol.getPacketInById(packetId, this.state);
@@ -59,7 +58,7 @@ public class PlayerConnection {
                     if (packetClass != null) {
                         final PacketInput packet = packetClass.newInstance();
 
-                        packet.read(packetSerializer);
+                        packet.read(byteBuf);
                         packet.handlePacket(this.networkManager, this);
                     } else {
                         Limbo.getLogger().warning("Received unknown packet " + packetId + " (0x" + (char)(packetId / 16 > 9 ? packetId / 16 + 'A' - 10 : packetId / 16 + '0') + "" + (char)(packetId % 16 > 9 ? packetId % 16 + 'A' - 10 : packetId % 16 + '0') + ").");

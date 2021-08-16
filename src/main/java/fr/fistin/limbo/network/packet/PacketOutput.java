@@ -1,5 +1,7 @@
 package fr.fistin.limbo.network.packet;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.IOException;
 
 /**
@@ -9,6 +11,6 @@ import java.io.IOException;
  */
 public abstract class PacketOutput extends Packet {
 
-    public abstract void write(PacketSerializer packetSerializer) throws IOException;
+    public abstract void write(ByteBuf byteBuf) throws IOException;
 
 }

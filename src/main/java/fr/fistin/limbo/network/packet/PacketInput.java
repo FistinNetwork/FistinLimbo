@@ -2,6 +2,7 @@ package fr.fistin.limbo.network.packet;
 
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.player.PlayerConnection;
+import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
  */
 public abstract class PacketInput extends Packet {
 
-    public abstract void read(PacketSerializer packetSerializer) throws IOException;
+    public abstract void read(ByteBuf byteBuf) throws IOException;
 
     public void handlePacket(NetworkManager networkManager, PlayerConnection playerConnection) {}
 
