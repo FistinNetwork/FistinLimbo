@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class LoggingOutputStream extends ByteArrayOutputStream {
 
-    private static final String separator = System.getProperty( "line.separator" );
+    private static final String separator = System.getProperty("line.separator");
 
     private final Logger logger;
     private final Level level;
@@ -24,12 +24,13 @@ public class LoggingOutputStream extends ByteArrayOutputStream {
     }
 
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         final String contents = this.toString(StandardCharsets.UTF_8.name());
+
         super.reset();
+
         if (!contents.isEmpty() && !contents.equals(separator)) {
-            this.logger.logp(level, "", "", contents);
+            this.logger.log(level, contents.substring(0, contents.length() - 2));
         }
     }
 

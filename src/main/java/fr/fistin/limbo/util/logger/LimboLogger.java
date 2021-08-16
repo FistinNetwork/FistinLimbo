@@ -25,14 +25,14 @@ public class LimboLogger extends Logger {
         try {
             final FileHandler fileHandler = new FileHandler(filePattern);
             fileHandler.setFormatter(new ConciseFormatter(this, false));
-            this.addHandler(fileHandler);
 
+            this.addHandler(fileHandler);
 
             final ColouredWriter consoleHandler = new ColouredWriter(limbo.getConsoleReader());
             consoleHandler.setLevel(Level.INFO);
             consoleHandler.setFormatter(new ConciseFormatter(this, true));
-            this.addHandler(consoleHandler);
 
+            this.addHandler(consoleHandler);
         } catch (IOException e) {
             System.err.println("Couldn't register logger !");
 

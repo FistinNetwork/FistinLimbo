@@ -26,8 +26,6 @@ public class ChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        System.out.println("Player connected.");
-
         this.playerConnection = new PlayerConnection(this.limbo, ctx.channel());
 
         this.limbo.getNetworkManager().getPlayersConnections().add(this.playerConnection);
@@ -58,8 +56,6 @@ public class ChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
             this.playerConnection.destroy();
             this.playerConnection = null;
-
-            System.out.println("Player disconnected.");
         }
     }
 

@@ -14,6 +14,8 @@ import io.netty.buffer.EmptyByteBuf;
 import io.netty.channel.Channel;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.InetSocketAddress;
 
 /**
  * Project: FistinLimbo
@@ -26,8 +28,7 @@ public class PlayerConnection {
     private ProtocolState state;
     private ProtocolVersion version;
 
-    private String handshakeAddress;
-    private int handshakePort;
+    private InetSocketAddress inetAddress;
 
     private final GameProfile profile;
 
@@ -41,6 +42,7 @@ public class PlayerConnection {
         this.channel = channel;
         this.networkManager = this.limbo.getNetworkManager();
         this.profile = new GameProfile();
+        this.inetAddress = (InetSocketAddress) channel.remoteAddress();
         this.state = ProtocolState.HANDSHAKE;
         this.protocol = this.networkManager.getProtocolByVersion(ProtocolVersion.HANDSHAKE);
     }
@@ -53,10 +55,8 @@ public class PlayerConnection {
                 if (this.protocol != null) {
                     final Class<? extends PacketInput> packetClass = this.protocol.getPacketInById(packetId, this.state);
 
-                    System.out.println("Receiving " + packetClass.getSimpleName());
-
                     if (packetClass != null) {
-                        final PacketInput packet = packetClass.newInstance();
+                        final PacketInput packet = packetClass.getDeclaredConstructor().newInstance();
 
                         packet.read(byteBuf);
                         packet.handlePacket(this.networkManager, this);
@@ -72,7 +72,7 @@ public class PlayerConnection {
                     this.disconnect("Version " + this.version + " not supported");
                 }
             }
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
@@ -84,8 +84,6 @@ public class PlayerConnection {
             packet.setId(packetId);
 
             this.channel.writeAndFlush(packet);
-
-            System.out.println("Sending " + packet.getClass().getSimpleName());
         } else {
             Limbo.getLogger().warning("Sending unknown packet " + packet.getClass().getSimpleName());
         }
@@ -111,20 +109,12 @@ public class PlayerConnection {
         return this.profile;
     }
 
-    public int getHandshakePort() {
-        return this.handshakePort;
+    public InetSocketAddress getInetAddress() {
+        return this.inetAddress;
     }
 
-    public void setHandshakePort(int handshakePort) {
-        this.handshakePort = handshakePort;
-    }
-
-    public String getHandshakeAddress() {
-        return this.handshakeAddress;
-    }
-
-    public void setHandshakeAddress(String handshakeAddress) {
-        this.handshakeAddress = handshakeAddress;
+    public void setInetAddress(InetSocketAddress inetAddress) {
+        this.inetAddress = inetAddress;
     }
 
     public ProtocolVersion getVersion() {
