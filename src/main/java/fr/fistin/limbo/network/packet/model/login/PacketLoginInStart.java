@@ -6,15 +6,13 @@ import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
 import fr.fistin.limbo.network.protocol.ProtocolState;
-import fr.fistin.limbo.player.GameProfile;
+import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.util.UUIDUtil;
 import fr.fistin.limbo.world.Chunk;
 import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.logging.Level;
 
 /**

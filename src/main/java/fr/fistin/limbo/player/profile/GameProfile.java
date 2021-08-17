@@ -1,4 +1,4 @@
-package fr.fistin.limbo.player;
+package fr.fistin.limbo.player.profile;
 
 import java.util.UUID;
 

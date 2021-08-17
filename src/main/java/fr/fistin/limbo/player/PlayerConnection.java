@@ -9,6 +9,8 @@ import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
+import fr.fistin.limbo.player.profile.GameProfile;
+import fr.fistin.limbo.player.settings.ClientSettings;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.EmptyByteBuf;
 import io.netty.channel.Channel;
@@ -38,6 +40,8 @@ public class PlayerConnection {
 
     private InetSocketAddress inetAddress;
 
+    private final ClientSettings settings;
+
     private final GameProfile profile;
 
     private final NetworkManager networkManager;
@@ -50,6 +54,7 @@ public class PlayerConnection {
         this.channel = channel;
         this.networkManager = this.limbo.getNetworkManager();
         this.profile = new GameProfile();
+        this.settings = new ClientSettings();
         this.inetAddress = (InetSocketAddress) channel.remoteAddress();
         this.state = ProtocolState.HANDSHAKE;
         this.protocol = this.networkManager.getProtocolByVersion(ProtocolVersion.HANDSHAKE);
@@ -129,6 +134,10 @@ public class PlayerConnection {
 
     public GameProfile getProfile() {
         return this.profile;
+    }
+
+    public ClientSettings getSettings() {
+        return this.settings;
     }
 
     public InetSocketAddress getInetAddress() {
