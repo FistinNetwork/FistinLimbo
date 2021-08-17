@@ -3,7 +3,9 @@ package fr.fistin.limbo.network.protocol.model;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.model.PacketInEmpty;
 import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
+import fr.fistin.limbo.network.packet.model.login.PacketLoginInEncryptionResponse;
 import fr.fistin.limbo.network.packet.model.login.PacketLoginInStart;
+import fr.fistin.limbo.network.packet.model.login.PacketLoginOutEncryptionRequest;
 import fr.fistin.limbo.network.packet.model.login.PacketLoginOutSuccess;
 import fr.fistin.limbo.network.packet.model.play.*;
 import fr.fistin.limbo.network.packet.model.status.PacketStatusInPing;
@@ -41,8 +43,10 @@ public class Protocol47 extends AbstractProtocol {
 
     private void registerLogin() {
         this.registerPacketIn(ProtocolState.LOGIN, 0x00, PacketLoginInStart.class);
+        this.registerPacketIn(ProtocolState.LOGIN, 0x01, PacketLoginInEncryptionResponse.class);
 
         this.registerPacketOut(ProtocolState.LOGIN, 0x00, PacketOutDisconnect.class);
+        this.registerPacketOut(ProtocolState.LOGIN, 0x01, PacketLoginOutEncryptionRequest.class);
         this.registerPacketOut(ProtocolState.LOGIN, 0x02, PacketLoginOutSuccess.class);
     }
 
