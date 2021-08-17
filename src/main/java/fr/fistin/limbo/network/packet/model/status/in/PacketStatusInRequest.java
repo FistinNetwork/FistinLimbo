@@ -1,7 +1,8 @@
-package fr.fistin.limbo.network.packet.model.status;
+package fr.fistin.limbo.network.packet.model.status.in;
 
 import com.google.gson.JsonObject;
 import fr.fistin.limbo.network.NetworkManager;
+import fr.fistin.limbo.network.packet.model.status.out.PacketStatusOutResponse;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.packet.PacketInput;
 import io.netty.buffer.ByteBuf;

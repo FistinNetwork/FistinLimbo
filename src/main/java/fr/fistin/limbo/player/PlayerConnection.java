@@ -9,12 +9,17 @@ import fr.fistin.limbo.network.packet.model.PacketOutDisconnect;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
+import fr.fistin.limbo.network.protocol.encryption.EncryptingDecoder;
+import fr.fistin.limbo.network.protocol.encryption.EncryptingEncoder;
+import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
 import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.player.settings.ClientSettings;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.EmptyByteBuf;
 import io.netty.channel.Channel;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
@@ -118,6 +123,11 @@ public class PlayerConnection {
         if (this.keepAliveFuture != null) {
             this.keepAliveFuture.cancel(false);
         }
+    }
+
+    public void enableEncryption(SecretKey key) {
+        this.channel.pipeline().addBefore("splitter", "decrypt", new EncryptingDecoder(EncryptionUtil.createNetCipherInstance(Cipher.DECRYPT_MODE, key)));
+        this.channel.pipeline().addBefore("prepender", "encrypt", new EncryptingEncoder(EncryptionUtil.createNetCipherInstance(Cipher.ENCRYPT_MODE, key)));
     }
 
     public void startKeepAliveFuture() {

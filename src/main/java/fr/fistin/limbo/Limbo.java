@@ -2,6 +2,7 @@ package fr.fistin.limbo;
 
 import fr.fistin.limbo.command.LimboCommandManager;
 import fr.fistin.limbo.network.NetworkManager;
+import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
 import fr.fistin.limbo.util.References;
 import fr.fistin.limbo.util.logger.LimboLogger;
 import fr.fistin.limbo.util.logger.LoggingOutputStream;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.security.KeyPair;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -24,6 +27,10 @@ import java.util.zip.GZIPInputStream;
  * on 15/08/2021 at 13:30
  */
 public class Limbo {
+
+    /** Encryption */
+    private byte[] verifyToken = new byte[4];
+    private KeyPair keyPair;
 
     /** Command */
     private LimboCommandManager commandManager;
@@ -105,6 +112,11 @@ public class Limbo {
         this.networkManager = new NetworkManager(this);
         this.commandManager = new LimboCommandManager(this);
 
+        System.out.println("Generating keypair...");
+        this.keyPair = EncryptionUtil.generateKeyPair();
+
+        new Random().nextBytes(verifyToken);
+
         this.commandManager.start();
         this.networkManager.start();
     }
@@ -152,6 +164,14 @@ public class Limbo {
 
     public LimboCommandManager getCommandManager() {
         return this.commandManager;
+    }
+
+    public KeyPair getKeyPair() {
+        return this.keyPair;
+    }
+
+    public byte[] getVerifyToken() {
+        return this.verifyToken;
     }
 
     public static Logger getLogger() {

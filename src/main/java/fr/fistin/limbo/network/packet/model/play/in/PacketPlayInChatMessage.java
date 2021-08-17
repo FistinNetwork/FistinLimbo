@@ -1,10 +1,11 @@
-package fr.fistin.limbo.network.packet.model.play;
+package fr.fistin.limbo.network.packet.model.play.in;
 
 import com.google.gson.JsonObject;
 import fr.fistin.limbo.chat.ChatPosition;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
+import fr.fistin.limbo.network.packet.model.play.out.PacketPlayOutChatMessage47;
 import fr.fistin.limbo.player.PlayerConnection;
 import io.netty.buffer.ByteBuf;
 

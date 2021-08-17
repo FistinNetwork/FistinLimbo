@@ -25,9 +25,9 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) {
         ch.pipeline().addLast("timeout", new ReadTimeoutHandler(30));
 
-        ch.pipeline().addLast("var_int_decoder", new VarInt21Decoder());
+        ch.pipeline().addLast("splitter", new VarInt21Decoder());
 
-        ch.pipeline().addLast("var_int_encoder", new VarInt21Encoder());
+        ch.pipeline().addLast("prepender", new VarInt21Encoder());
         ch.pipeline().addLast("packet_encoder", new PacketEncoder());
 
         ch.pipeline().addLast("handler", new ChannelHandler(this.limbo));

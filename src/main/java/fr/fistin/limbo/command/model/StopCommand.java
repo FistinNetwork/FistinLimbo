@@ -1,8 +1,6 @@
 package fr.fistin.limbo.command.model;
 
-import fr.fistin.limbo.Limbo;
 import fr.fistin.limbo.command.LimboCommand;
-import fr.fistin.limbo.command.LimboCommandManager;
 
 /**
  * Project: FistinLimbo

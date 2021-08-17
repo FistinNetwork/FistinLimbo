@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.model.login;
+package fr.fistin.limbo.network.packet.model.login.out;
 
 import fr.fistin.limbo.network.packet.PacketOutput;
 import fr.fistin.limbo.network.packet.PacketSerializer;

@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.packet.model.play;
+package fr.fistin.limbo.network.packet.model.play.in;
 
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
