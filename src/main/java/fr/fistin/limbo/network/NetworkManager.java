@@ -3,6 +3,7 @@ package fr.fistin.limbo.network;
 import fr.fistin.limbo.Limbo;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
+import fr.fistin.limbo.network.protocol.login.LoginManager;
 import fr.fistin.limbo.network.protocol.model.Protocol47;
 import fr.fistin.limbo.network.protocol.model.ProtocolHandshake;
 import fr.fistin.limbo.player.PlayerConnection;
@@ -29,6 +30,8 @@ public class NetworkManager {
 
     private EventLoopGroup bossGroup;
 
+    private final LoginManager loginManager;
+
     private final List<AbstractProtocol> protocols;
     private final List<PlayerConnection> playersConnections;
 
@@ -38,6 +41,7 @@ public class NetworkManager {
         this.limbo = limbo;
         this.playersConnections = new ArrayList<>();
         this.protocols = new ArrayList<>();
+        this.loginManager = new LoginManager(this.limbo);
 
         this.protocols.add(new ProtocolHandshake(this));
         this.protocols.add(new Protocol47(this));
@@ -108,6 +112,10 @@ public class NetworkManager {
             }
         }
         return null;
+    }
+
+    public LoginManager getLoginManager() {
+        return this.loginManager;
     }
 
 }

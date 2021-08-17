@@ -7,6 +7,7 @@ import fr.fistin.limbo.network.packet.PacketSerializer;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
+import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.util.UUIDUtil;
 import io.netty.buffer.ByteBuf;
@@ -54,7 +55,7 @@ public class PacketHandshake extends PacketInput {
                 bungeeAddress = playerConnection.getInetAddress();
 
                 playerConnection.setInetAddress(new InetSocketAddress(data[1], playerConnection.getInetAddress().getPort()));
-                playerConnection.getProfile().setUuid(UUIDUtil.fromString(data[2]));
+                playerConnection.setProfile(new GameProfile(UUIDUtil.fromString(data[2]), playerConnection.getProfile().getName()));
             }
 
             if (state == ProtocolState.LOGIN) {

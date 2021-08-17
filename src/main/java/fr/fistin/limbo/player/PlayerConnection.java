@@ -12,11 +12,13 @@ import fr.fistin.limbo.network.protocol.ProtocolVersion;
 import fr.fistin.limbo.network.protocol.encryption.EncryptingDecoder;
 import fr.fistin.limbo.network.protocol.encryption.EncryptingEncoder;
 import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
-import fr.fistin.limbo.player.profile.GameProfile;
+import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
 import fr.fistin.limbo.player.settings.ClientSettings;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.EmptyByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.local.LocalChannel;
+import io.netty.channel.local.LocalServerChannel;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -47,7 +49,7 @@ public class PlayerConnection {
 
     private final ClientSettings settings;
 
-    private final GameProfile profile;
+    private GameProfile profile;
 
     private final NetworkManager networkManager;
 
@@ -58,7 +60,6 @@ public class PlayerConnection {
         this.limbo = limbo;
         this.channel = channel;
         this.networkManager = this.limbo.getNetworkManager();
-        this.profile = new GameProfile();
         this.settings = new ClientSettings();
         this.inetAddress = (InetSocketAddress) channel.remoteAddress();
         this.state = ProtocolState.HANDSHAKE;
@@ -87,9 +88,7 @@ public class PlayerConnection {
                     this.protocol = this.networkManager.getProtocolByVersion(ProtocolVersion.HANDSHAKE);
                     this.state = ProtocolState.HANDSHAKE;
 
-                    Limbo.getLogger().warning("Version " + this.version + " not supported");
-
-                    this.disconnect("Version " + this.version + " not supported");
+                    this.disconnect("Version " + this.version.name().substring(9).replaceAll("_", ".") + " not supported");
                 }
             }
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -134,6 +133,10 @@ public class PlayerConnection {
         this.keepAliveFuture = this.channel.eventLoop().scheduleAtFixedRate(() -> this.protocol.sendKeepAlive(this, this.keepAliveId), 5, 10, TimeUnit.SECONDS);
     }
 
+    public boolean isLocal() {
+        return this.channel instanceof LocalChannel || this.channel instanceof LocalServerChannel;
+    }
+
     public Limbo getLimbo() {
         return this.limbo;
     }
@@ -144,6 +147,10 @@ public class PlayerConnection {
 
     public GameProfile getProfile() {
         return this.profile;
+    }
+
+    public void setProfile(GameProfile profile) {
+        this.profile = profile;
     }
 
     public ClientSettings getSettings() {

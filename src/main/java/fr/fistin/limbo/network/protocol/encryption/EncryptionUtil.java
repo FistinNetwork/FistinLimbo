@@ -6,6 +6,7 @@ import org.checkerframework.checker.units.qual.K;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.util.logging.Level;
 
@@ -15,6 +16,33 @@ import java.util.logging.Level;
  * on 17/08/2021 at 09:09
  */
 public class EncryptionUtil {
+
+    public static byte[] digestKey(String s, PublicKey publickey, SecretKey secretkey) {
+        try {
+            return digestData("SHA-1", s.getBytes("ISO_8859_1"), secretkey.getEncoded(), publickey.getEncoded());
+        } catch (UnsupportedEncodingException unsupportedencodingexception) {
+            unsupportedencodingexception.printStackTrace();
+        }
+        return null;
+    }
+
+    private static byte[] digestData(String s, byte[]... aByte) {
+        try {
+            final MessageDigest messagedigest = MessageDigest.getInstance(s);
+            final int i = aByte.length;
+
+            for (int j = 0; j < i; ++j) {
+                final byte[] anOtherByte = aByte[j];
+
+                messagedigest.update(anOtherByte);
+            }
+
+            return messagedigest.digest();
+        } catch (NoSuchAlgorithmException nosuchalgorithmexception) {
+            nosuchalgorithmexception.printStackTrace();
+        }
+        return null;
+    }
 
     public static KeyPair generateKeyPair() {
         try {

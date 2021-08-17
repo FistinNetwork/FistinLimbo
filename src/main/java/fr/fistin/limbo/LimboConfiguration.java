@@ -10,14 +10,16 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 /**
- * Created by Rigner on 30/08/16 for project Limbo.
- * All rights reserved.
+ * Project: FistinLimbo
+ * Created by AstFaster
+ * on 17/08/2021 at 15:01
  */
 public class LimboConfiguration {
 
     private int maxSlots;
     private short port;
     private String ip;
+    private boolean onlineMode;
     private String schematicFile;
     private byte dimension;
     private byte gameMode;
@@ -49,9 +51,10 @@ public class LimboConfiguration {
             limboConfiguration.maxSlots = LimboConfiguration.getInt(properties, "max-slots", -1);
             limboConfiguration.port = (short) LimboConfiguration.getInt(properties, "server-port", 25565);
             limboConfiguration.ip = LimboConfiguration.getString(properties, "server-ip", "localhost");
+            limboConfiguration.onlineMode = Boolean.parseBoolean(LimboConfiguration.getString(properties, "online-mode", "true"));
             limboConfiguration.schematicFile = LimboConfiguration.getString(properties, "schematic-file", "world.schematic");
-            limboConfiguration.dimension = (byte)LimboConfiguration.getInt(properties, "dimension", 1);
-            limboConfiguration.gameMode = (byte)LimboConfiguration.getInt(properties, "gamemode", 2);
+            limboConfiguration.dimension = (byte) LimboConfiguration.getInt(properties, "dimension", 1);
+            limboConfiguration.gameMode = (byte) LimboConfiguration.getInt(properties, "gamemode", 2);
             limboConfiguration.reducedDebugInfo = Boolean.parseBoolean(LimboConfiguration.getString(properties, "reduced-debug-info", "true"));
 
             final String[] split = LimboConfiguration.getString(properties, "spawn", "0.5;64;0.5;0;0").split(";");
@@ -65,6 +68,7 @@ public class LimboConfiguration {
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                 throw new InvalidPropertiesFormatException("Invalid coordinate format");
             }
+
             return limboConfiguration;
         }
         catch (Exception e) {
@@ -74,9 +78,12 @@ public class LimboConfiguration {
     }
 
     private static int getInt(Properties properties, String key, int def) throws InvalidPropertiesFormatException {
-        String result = properties.getProperty(key);
-        if (result == null)
+        final String result = properties.getProperty(key);
+
+        if (result == null) {
             return def;
+        }
+
         try {
             return Integer.parseInt(result);
         } catch (NumberFormatException ex) {
@@ -85,8 +92,29 @@ public class LimboConfiguration {
     }
 
     private static String getString(Properties properties, String key, String def) {
-        String result = properties.getProperty(key);
+        final String result = properties.getProperty(key);
+
         return result == null ? def : result;
+    }
+
+    public int getMaxSlots() {
+        return this.maxSlots;
+    }
+
+    public short getPort() {
+        return this.port;
+    }
+
+    public String getIp() {
+        return this.ip;
+    }
+
+    public boolean isOnlineMode() {
+        return this.onlineMode;
+    }
+
+    public String getSchematicFile() {
+        return this.schematicFile;
     }
 
     public byte getDimension() {
@@ -105,24 +133,8 @@ public class LimboConfiguration {
         return this.spawnY;
     }
 
-    public int getMaxSlots() {
-        return this.maxSlots;
-    }
-
     public double getSpawnZ() {
         return this.spawnZ;
-    }
-
-    public short getPort() {
-        return this.port;
-    }
-
-    public String getIp() {
-        return this.ip;
-    }
-
-    public String getSchematicFile() {
-        return this.schematicFile;
     }
 
     public float getSpawnYaw() {

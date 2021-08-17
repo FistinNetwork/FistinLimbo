@@ -27,7 +27,7 @@ public class PacketPlayInChatMessage extends PacketInput {
 
     @Override
     public void handlePacket(NetworkManager networkManager, PlayerConnection playerConnection) {
-        final String formattedMessage = playerConnection.getProfile().getUsername() + ": " + this.message;
+        final String formattedMessage = playerConnection.getProfile().getName() + ": " + this.message;
         final JsonObject json = new JsonObject();
 
         json.addProperty("text", formattedMessage);

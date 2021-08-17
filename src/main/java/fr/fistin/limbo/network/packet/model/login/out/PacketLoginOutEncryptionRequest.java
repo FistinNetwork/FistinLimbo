@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
 import java.security.PublicKey;
-import java.util.Arrays;
 
 /**
  * Project: FistinLimbo
