@@ -1,24 +1,17 @@
 package fr.fistin.limbo.network.packet.model.login.in;
 
-import com.mojang.authlib.GameProfile;
 import fr.fistin.limbo.Limbo;
-import fr.fistin.limbo.LimboConfiguration;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.PacketInput;
 import fr.fistin.limbo.network.packet.PacketSerializer;
-import fr.fistin.limbo.network.packet.model.login.out.PacketLoginOutSuccess;
-import fr.fistin.limbo.network.protocol.ProtocolState;
-import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
-import fr.fistin.limbo.world.Chunk;
+import fr.fistin.limbo.player.PlayerConnection;
 import io.netty.buffer.ByteBuf;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.util.Arrays;
-import java.util.logging.Level;
 
 /**
  * Project: FistinLimbo

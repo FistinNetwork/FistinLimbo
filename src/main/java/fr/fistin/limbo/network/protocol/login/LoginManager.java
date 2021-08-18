@@ -15,12 +15,7 @@ import fr.fistin.limbo.util.UUIDUtil;
 import fr.fistin.limbo.world.Chunk;
 
 import javax.crypto.SecretKey;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -86,33 +81,6 @@ public class LoginManager {
                 Limbo.getLogger().log(Level.WARNING, "Exception verifying " + profile.getName() + ".", e);
             }
         }).start();
-    }
-
-    private void hasJoinedServer(GameProfile profile, String serverId) {
-        try {
-            final URL url = new URL("https://sessionserver.mojang.com/session/minecraft/hasJoined?username=" + profile.getName() + "&serverId=" + serverId);
-            final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Type", "application/json");
-
-            final int responseCode = connection.getResponseCode();
-
-            System.out.println("RC: " + responseCode);
-
-            final BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            final StringBuilder response = new StringBuilder();
-
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            System.out.println(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void loginSuccess(PlayerConnection playerConnection) {
