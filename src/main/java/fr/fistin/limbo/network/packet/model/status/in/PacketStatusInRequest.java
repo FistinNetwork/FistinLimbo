@@ -5,9 +5,11 @@ import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.model.status.out.PacketStatusOutResponse;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.network.packet.PacketInput;
+import fr.fistin.limbo.util.References;
 import io.netty.buffer.ByteBuf;
 
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Project: FistinLimbo
@@ -26,7 +28,7 @@ public class PacketStatusInRequest extends PacketInput {
         final JsonObject players = new JsonObject();
         final JsonObject description = new JsonObject();
 
-        version.addProperty("name", "Limbo");
+        version.addProperty("name", "FistinLimbo");
         version.addProperty("protocol", playerConnection.getVersion().getId());
 
         players.addProperty("max", 9999);
@@ -38,6 +40,9 @@ public class PacketStatusInRequest extends PacketInput {
         payload.add("players", players);
         payload.add("description", description);
 
+        payload.addProperty("favicon", "data:image/png;base64," + References.SERVER_ICON_BLUE_BASE64);
+
         playerConnection.sendPacket(new PacketStatusOutResponse(payload.toString()));
     }
+
 }

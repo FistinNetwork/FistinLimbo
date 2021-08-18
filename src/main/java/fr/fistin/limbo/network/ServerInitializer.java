@@ -1,6 +1,7 @@
 package fr.fistin.limbo.network;
 
 import fr.fistin.limbo.Limbo;
+import fr.fistin.limbo.network.protocol.ping.LegacyPingHandler;
 import fr.fistin.limbo.network.pipeline.PacketEncoder;
 import fr.fistin.limbo.network.pipeline.VarInt21Decoder;
 import fr.fistin.limbo.network.pipeline.VarInt21Encoder;
@@ -24,6 +25,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) {
         ch.pipeline().addLast("timeout", new ReadTimeoutHandler(30));
+
+        ch.pipeline().addLast("legacy_query", new LegacyPingHandler());
 
         ch.pipeline().addLast("splitter", new VarInt21Decoder());
 
