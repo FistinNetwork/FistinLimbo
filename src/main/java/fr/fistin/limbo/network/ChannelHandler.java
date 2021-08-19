@@ -58,6 +58,8 @@ public class ChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
             networkManager.getPlayersConnections().remove(this.playerConnection);
 
             if (this.playerConnection.getState() == ProtocolState.PLAY) {
+                networkManager.setPlayers(networkManager.getPlayers() - 1);
+
                 final String message = this.playerConnection.getProfile().getName() + " left the game";
 
                 System.out.println(message);

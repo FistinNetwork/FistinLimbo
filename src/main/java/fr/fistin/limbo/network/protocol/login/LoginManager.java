@@ -38,15 +38,21 @@ public class LoginManager {
 
     public void loginStart(PlayerConnection playerConnection, String username) {
         final Limbo limbo = playerConnection.getLimbo();
+        final int players = limbo.getNetworkManager().getPlayers();
+        final int maxPlayers = limbo.getConfiguration().getMaxSlots();
 
-        if (limbo.getConfiguration().isOnlineMode() && !playerConnection.isLocal()) {
-            playerConnection.setProfile(new GameProfile(null, username));
+        if (players < maxPlayers || maxPlayers == -1) {
+            if (limbo.getConfiguration().isOnlineMode() && !playerConnection.isLocal()) {
+                playerConnection.setProfile(new GameProfile(null, username));
 
-            playerConnection.sendPacket(new PacketLoginOutEncryptionRequest("", limbo.getKeyPair().getPublic(), limbo.getVerifyToken()));
+                playerConnection.sendPacket(new PacketLoginOutEncryptionRequest("", limbo.getKeyPair().getPublic(), limbo.getVerifyToken()));
+            } else {
+                playerConnection.setProfile(new GameProfile(UUIDUtil.getOffline(username), username));
+
+                this.loginSuccess(playerConnection);
+            }
         } else {
-            playerConnection.setProfile(new GameProfile(UUIDUtil.getOffline(username), username));
-
-            this.loginSuccess(playerConnection);
+            playerConnection.disconnect("Server is full!");
         }
     }
 

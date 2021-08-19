@@ -3,6 +3,7 @@ package fr.fistin.limbo;
 import fr.fistin.limbo.command.LimboCommandManager;
 import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
+import fr.fistin.limbo.util.ImageUtil;
 import fr.fistin.limbo.util.References;
 import fr.fistin.limbo.util.logger.LimboLogger;
 import fr.fistin.limbo.util.logger.LoggingOutputStream;
@@ -11,6 +12,9 @@ import fr.fistin.limbo.world.World;
 import fr.fistin.limbo.world.nbt.NBTTag;
 import jline.console.ConsoleReader;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,7 +33,7 @@ import java.util.zip.GZIPInputStream;
 public class Limbo {
 
     /** Encryption */
-    private byte[] verifyToken = new byte[4];
+    private final byte[] verifyToken = new byte[4];
     private KeyPair keyPair;
 
     /** Command */
@@ -37,6 +41,9 @@ public class Limbo {
 
     /** Network */
     private NetworkManager networkManager;
+
+    /** Server info */
+    private String serverIcon;
 
     /** Logger */
     private ConsoleReader consoleReader;
@@ -109,6 +116,7 @@ public class Limbo {
 
     private void run() {
         this.running = true;
+        this.serverIcon = this.serverIcon();
         this.networkManager = new NetworkManager(this);
         this.commandManager = new LimboCommandManager(this);
 
@@ -129,6 +137,31 @@ public class Limbo {
         System.out.println("FistinLimbo is now down, see you soon!");
 
         this.waitLogger();
+    }
+
+    private String serverIcon() {
+        final File file = new File("server-icon.png");
+
+        try {
+            if (file.exists()) {
+                final BufferedImage image = ImageIO.read(file);
+                final int height = image.getHeight();
+                final int width = image.getWidth();
+
+                if (height <= 64 && width <= 64) {
+                    if (height == width) {
+                        return ImageUtil.encodeToBase64(file);
+                    } else {
+                        System.err.println("Server icon image height and width must be the same!");
+                    }
+                } else {
+                    System.err.println("Server icon image height and width must be less than 64px!");
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Can't read server icon image from " + file.getName() + "!");
+        }
+        return References.SERVER_ICON_BLUE_BASE64;
     }
 
     private void waitLogger() {
@@ -156,6 +189,10 @@ public class Limbo {
 
     public ConsoleReader getConsoleReader() {
         return this.consoleReader;
+    }
+
+    public String getServerIcon() {
+        return this.serverIcon;
     }
 
     public NetworkManager getNetworkManager() {

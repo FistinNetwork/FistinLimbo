@@ -36,7 +36,7 @@ public class PacketStatusInRequest extends PacketInput {
         version.addProperty("protocol", playerConnection.getVersion().getId());
 
         players.addProperty("max", configuration.getMaxSlots());
-        players.addProperty("online", networkManager.getPlayersConnections().size());
+        players.addProperty("online", networkManager.getPlayers());
 
         description.addProperty("text", configuration.getMotd());
 
@@ -44,7 +44,7 @@ public class PacketStatusInRequest extends PacketInput {
         payload.add("players", players);
         payload.add("description", description);
 
-        payload.addProperty("favicon", "data:image/png;base64," + References.SERVER_ICON_BLUE_BASE64);
+        payload.addProperty("favicon", "data:image/png;base64," + limbo.getServerIcon());
 
         playerConnection.sendPacket(new PacketStatusOutResponse(payload.toString()));
     }

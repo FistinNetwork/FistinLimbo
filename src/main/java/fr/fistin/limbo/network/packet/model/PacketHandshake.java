@@ -59,7 +59,7 @@ public class PacketHandshake extends PacketInput {
             }
 
             if (state == ProtocolState.LOGIN) {
-                System.out.println("[" + playerConnection.getInetAddress().toString() + "] <-> New connection" + (bungeeAddress == null ? "" : " (via BungeeCord " + bungeeAddress.getHostString() + ")") + ".");
+                System.out.println("[" + playerConnection.getInetAddress().toString() + "] <-> New connection" + (bungeeAddress == null ? "" : " (via BungeeCord " + bungeeAddress.getHostString() + ")"));
             }
         } else {
             Limbo.getLogger().warning("Received invalid state: " + nextState);

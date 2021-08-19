@@ -34,7 +34,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
         try {
             if (byteBuf.readUnsignedByte() == 0xFE) {
                 final LimboConfiguration configuration = this.limbo.getConfiguration();
-                final int players = this.limbo.getNetworkManager().getPlayersConnections().size();
+                final int players = this.limbo.getNetworkManager().getPlayers();
                 final int maxSlots = configuration.getMaxSlots();
                 final String motd = configuration.getMotd();
 
