@@ -3,7 +3,7 @@ package fr.fistin.limbo.network.protocol.login.auth.yggdrasil;
 import fr.fistin.limbo.network.protocol.login.auth.HttpAuthenticationService;
 import fr.fistin.limbo.network.protocol.login.auth.exception.AuthenticationException;
 import fr.fistin.limbo.network.protocol.login.auth.exception.AuthenticationUnavailableException;
-import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
+import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.network.protocol.login.auth.yggdrasil.response.YggdrasilMinecraftServerHasJoinedResponse;
 import fr.fistin.limbo.util.UUIDUtil;
 

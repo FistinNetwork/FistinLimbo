@@ -29,6 +29,7 @@ public class LimboConfiguration {
     private float spawnYaw;
     private float spawnPitch;
     private boolean reducedDebugInfo;
+    private String motd;
 
     static LimboConfiguration load() {
         try {
@@ -56,6 +57,7 @@ public class LimboConfiguration {
             limboConfiguration.dimension = (byte) LimboConfiguration.getInt(properties, "dimension", 1);
             limboConfiguration.gameMode = (byte) LimboConfiguration.getInt(properties, "gamemode", 2);
             limboConfiguration.reducedDebugInfo = Boolean.parseBoolean(LimboConfiguration.getString(properties, "reduced-debug-info", "true"));
+            limboConfiguration.motd = LimboConfiguration.getString(properties, "server-motd", "A FistinLimbo server");
 
             final String[] split = LimboConfiguration.getString(properties, "spawn", "0.5;64;0.5;0;0").split(";");
 
@@ -147,6 +149,10 @@ public class LimboConfiguration {
 
     public boolean isReducedDebugInfo() {
         return this.reducedDebugInfo;
+    }
+
+    public String getMotd() {
+        return this.motd;
     }
 
 }

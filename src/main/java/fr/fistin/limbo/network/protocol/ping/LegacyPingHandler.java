@@ -1,6 +1,8 @@
 package fr.fistin.limbo.network.protocol.ping;
 
 import com.google.common.base.Charsets;
+import fr.fistin.limbo.Limbo;
+import fr.fistin.limbo.LimboConfiguration;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -16,6 +18,12 @@ import java.net.InetSocketAddress;
  */
 public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 
+    private final Limbo limbo;
+
+    public LegacyPingHandler(Limbo limbo) {
+        this.limbo = limbo;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         final ByteBuf byteBuf = (ByteBuf) msg;
@@ -25,6 +33,11 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
         boolean flag = true;
         try {
             if (byteBuf.readUnsignedByte() == 0xFE) {
+                final LimboConfiguration configuration = this.limbo.getConfiguration();
+                final int players = this.limbo.getNetworkManager().getPlayersConnections().size();
+                final int maxSlots = configuration.getMaxSlots();
+                final String motd = configuration.getMotd();
+
                 final InetSocketAddress inetSocketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
                 final int readableBytes = byteBuf.readableBytes();
 
@@ -33,7 +46,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
                     case 0:
                         System.out.println("Ping: (< 1.3.x) from " + inetSocketAddress.getAddress() + ":" + inetSocketAddress.getPort());
 
-                        s = String.format("%s\u00a7%d\u00a7%d", "FistinLimbo", 1200, 9999);
+                        s = String.format("%s\u00a7%d\u00a7%d", motd, players, maxSlots);
 
                         this.sendAndClose(ctx, this.write(s));
                         break;
@@ -44,7 +57,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 
                         System.out.println("Ping: (1.4-1.5.x) from " + inetSocketAddress.getAddress() + ":" + inetSocketAddress.getPort());
 
-                        s = String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, "47", "FistinLimbo", 1200, 9999);
+                        s = String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, "47", motd, players, maxSlots);
 
                         this.sendAndClose(ctx, this.write(s));
                         break;
@@ -63,7 +76,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
                         if (flag1) {
                             System.out.println("Ping: (1.6) from " + inetSocketAddress.getAddress() + ":" + inetSocketAddress.getPort());
 
-                            final ByteBuf buf = this.write(String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, "47", "FistinLimbo", 1200, 9999));
+                            final ByteBuf buf = this.write(String.format("\u00a71\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, "47", motd, players, maxSlots));
 
                             try {
                                 this.sendAndClose(ctx, buf);

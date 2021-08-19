@@ -63,7 +63,7 @@ public class Protocol47 extends AbstractProtocol {
         this.registerPacketOut(ProtocolState.PLAY, 0x40, PacketOutDisconnect.class);
 
         this.registerPacketIn(ProtocolState.PLAY, 0x00, PacketPlayInKeepAlive47.class);
-        this.registerPacketIn(ProtocolState.PLAY, 0x01, PacketPlayInChatMessage.class); //Chat message
+        this.registerPacketIn(ProtocolState.PLAY, 0x01, PacketPlayInChatMessage.class);
         this.registerPacketIn(ProtocolState.PLAY, 0x02, PacketInEmpty.class); //Use entity
         this.registerPacketIn(ProtocolState.PLAY, 0x03, PacketInEmpty.class); //Player (ground)
         this.registerPacketIn(ProtocolState.PLAY, 0x04, PacketInEmpty.class); //Player position

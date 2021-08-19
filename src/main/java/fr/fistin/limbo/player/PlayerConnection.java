@@ -12,7 +12,7 @@ import fr.fistin.limbo.network.protocol.ProtocolVersion;
 import fr.fistin.limbo.network.protocol.encryption.EncryptingDecoder;
 import fr.fistin.limbo.network.protocol.encryption.EncryptingEncoder;
 import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
-import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
+import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.player.settings.ClientSettings;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.EmptyByteBuf;

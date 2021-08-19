@@ -26,7 +26,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) {
         ch.pipeline().addLast("timeout", new ReadTimeoutHandler(30));
 
-        ch.pipeline().addLast("legacy_query", new LegacyPingHandler());
+        ch.pipeline().addLast("legacy_query", new LegacyPingHandler(this.limbo));
 
         ch.pipeline().addLast("splitter", new VarInt21Decoder());
 

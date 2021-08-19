@@ -1,6 +1,9 @@
 package fr.fistin.limbo.network;
 
+import com.google.gson.JsonObject;
 import fr.fistin.limbo.Limbo;
+import fr.fistin.limbo.chat.ChatPosition;
+import fr.fistin.limbo.network.packet.model.play.out.PacketPlayOutChatMessage47;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
 import fr.fistin.limbo.network.protocol.login.LoginManager;
@@ -29,6 +32,8 @@ import java.util.List;
 public class NetworkManager {
 
     private EventLoopGroup bossGroup;
+
+    private int players;
 
     private final LoginManager loginManager;
 
@@ -93,6 +98,16 @@ public class NetworkManager {
         this.bossGroup.shutdownGracefully();
     }
 
+    public void sendMessageToAllPlayers(String message) {
+        for (PlayerConnection playerConnection : this.playersConnections) {
+            final JsonObject json = new JsonObject();
+
+            json.addProperty("text", "\u00a7e" + message);
+
+            playerConnection.sendPacket(new PacketPlayOutChatMessage47(json.toString(), ChatPosition.CHAT));
+        }
+    }
+
     public List<PlayerConnection> getPlayersConnections() {
         return this.playersConnections;
     }
@@ -116,6 +131,14 @@ public class NetworkManager {
 
     public LoginManager getLoginManager() {
         return this.loginManager;
+    }
+
+    public int getPlayers() {
+        return this.players;
+    }
+
+    public void setPlayers(int players) {
+        this.players = players;
     }
 
 }

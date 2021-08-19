@@ -1,12 +1,7 @@
-package fr.fistin.limbo.network.protocol.login.auth.profile;
+package fr.fistin.limbo.player.profile;
 
-import com.google.gson.*;
-import fr.fistin.limbo.network.protocol.login.auth.profile.property.Property;
-import fr.fistin.limbo.network.protocol.login.auth.profile.property.PropertyMap;
+import fr.fistin.limbo.player.profile.property.PropertyMap;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**

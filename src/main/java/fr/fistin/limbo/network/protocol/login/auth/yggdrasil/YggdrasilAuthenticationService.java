@@ -6,8 +6,8 @@ import fr.fistin.limbo.network.protocol.login.auth.exception.AuthenticationExcep
 import fr.fistin.limbo.network.protocol.login.auth.exception.AuthenticationUnavailableException;
 import fr.fistin.limbo.network.protocol.login.auth.exception.InvalidCredentialsException;
 import fr.fistin.limbo.network.protocol.login.auth.exception.UserMigratedException;
-import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
-import fr.fistin.limbo.network.protocol.login.auth.profile.property.PropertyMap;
+import fr.fistin.limbo.player.profile.GameProfile;
+import fr.fistin.limbo.player.profile.property.PropertyMap;
 import fr.fistin.limbo.network.protocol.login.auth.yggdrasil.response.YggdrasilResponse;
 
 import java.io.IOException;

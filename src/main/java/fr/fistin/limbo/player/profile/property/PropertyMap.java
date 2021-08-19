@@ -1,4 +1,4 @@
-package fr.fistin.limbo.network.protocol.login.auth.profile.property;
+package fr.fistin.limbo.player.profile.property;
 
 import com.google.common.collect.ForwardingMultimap;
 import com.google.common.collect.LinkedHashMultimap;

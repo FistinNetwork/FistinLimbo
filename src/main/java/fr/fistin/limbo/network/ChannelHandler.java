@@ -1,6 +1,7 @@
 package fr.fistin.limbo.network;
 
 import fr.fistin.limbo.Limbo;
+import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.player.PlayerConnection;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -52,7 +53,17 @@ public class ChannelHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     private void dispatchSession() {
         if (this.playerConnection != null) {
-            this.limbo.getNetworkManager().getPlayersConnections().remove(this.playerConnection);
+            final NetworkManager networkManager = this.limbo.getNetworkManager();
+
+            networkManager.getPlayersConnections().remove(this.playerConnection);
+
+            if (this.playerConnection.getState() == ProtocolState.PLAY) {
+                final String message = this.playerConnection.getProfile().getName() + " left the game";
+
+                System.out.println(message);
+
+                networkManager.sendMessageToAllPlayers(message);
+            }
 
             this.playerConnection.destroy();
         }

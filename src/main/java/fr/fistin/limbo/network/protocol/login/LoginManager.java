@@ -2,12 +2,13 @@ package fr.fistin.limbo.network.protocol.login;
 
 import fr.fistin.limbo.Limbo;
 import fr.fistin.limbo.LimboConfiguration;
+import fr.fistin.limbo.network.NetworkManager;
 import fr.fistin.limbo.network.packet.model.login.out.PacketLoginOutEncryptionRequest;
 import fr.fistin.limbo.network.packet.model.login.out.PacketLoginOutSuccess;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.encryption.EncryptionUtil;
 import fr.fistin.limbo.network.protocol.login.auth.exception.AuthenticationUnavailableException;
-import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
+import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.network.protocol.login.auth.yggdrasil.YggdrasilAuthenticationService;
 import fr.fistin.limbo.network.protocol.login.auth.yggdrasil.YggdrasilMinecraftSessionService;
 import fr.fistin.limbo.player.PlayerConnection;
@@ -84,10 +85,18 @@ public class LoginManager {
     }
 
     public void loginSuccess(PlayerConnection playerConnection) {
+        final NetworkManager networkManager = this.limbo.getNetworkManager();
         final GameProfile profile = playerConnection.getProfile();
+        final String message = profile.getName() + " joined the game";
 
         playerConnection.sendPacket(new PacketLoginOutSuccess(profile.getName(), profile.getId()));
         playerConnection.setState(ProtocolState.PLAY);
+
+        networkManager.setPlayers(networkManager.getPlayers() + 1);
+
+        System.out.println(message);
+
+        networkManager.sendMessageToAllPlayers(message);
 
         this.sendJoinGamePacket(playerConnection);
         this.sendChunksAndPlayerPosition(playerConnection);

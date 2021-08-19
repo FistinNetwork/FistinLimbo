@@ -7,7 +7,7 @@ import fr.fistin.limbo.network.packet.PacketSerializer;
 import fr.fistin.limbo.network.protocol.AbstractProtocol;
 import fr.fistin.limbo.network.protocol.ProtocolState;
 import fr.fistin.limbo.network.protocol.ProtocolVersion;
-import fr.fistin.limbo.network.protocol.login.auth.profile.GameProfile;
+import fr.fistin.limbo.player.profile.GameProfile;
 import fr.fistin.limbo.player.PlayerConnection;
 import fr.fistin.limbo.util.UUIDUtil;
 import io.netty.buffer.ByteBuf;

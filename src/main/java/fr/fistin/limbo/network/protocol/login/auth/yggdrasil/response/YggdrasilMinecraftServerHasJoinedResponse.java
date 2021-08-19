@@ -1,6 +1,6 @@
 package fr.fistin.limbo.network.protocol.login.auth.yggdrasil.response;
 
-import fr.fistin.limbo.network.protocol.login.auth.profile.property.PropertyMap;
+import fr.fistin.limbo.player.profile.property.PropertyMap;
 
 /**
  * Project: FistinLimbo
