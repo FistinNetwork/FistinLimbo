@@ -93,21 +93,38 @@ public class LoginManager {
     public void loginSuccess(PlayerConnection playerConnection) {
         final NetworkManager networkManager = this.limbo.getNetworkManager();
         final GameProfile profile = playerConnection.getProfile();
-        final String message = profile.getName() + " joined the game";
 
-        playerConnection.sendPacket(new PacketLoginOutSuccess(profile.getName(), profile.getId()));
-        playerConnection.setState(ProtocolState.PLAY);
 
-        networkManager.setPlayers(networkManager.getPlayers() + 1);
+        if (!this.isPlayerAlreadyLogged(profile)) {
+            final String message = profile.getName() + " joined the game";
 
-        System.out.println(message);
+            playerConnection.sendPacket(new PacketLoginOutSuccess(profile.getName(), profile.getId()));
+            playerConnection.setState(ProtocolState.PLAY);
 
-        networkManager.sendMessageToAllPlayers(message);
+            networkManager.setPlayers(networkManager.getPlayers() + 1);
 
-        this.sendJoinGamePacket(playerConnection);
-        this.sendChunksAndPlayerPosition(playerConnection);
+            System.out.println(message);
 
-        playerConnection.startKeepAliveFuture();
+            networkManager.sendMessageToAllPlayers(message);
+
+            this.sendJoinGamePacket(playerConnection);
+            this.sendChunksAndPlayerPosition(playerConnection);
+
+            playerConnection.startKeepAliveFuture();
+        } else {
+            playerConnection.disconnect("Already logged from another location!");
+        }
+    }
+
+    private boolean isPlayerAlreadyLogged(GameProfile profile) {
+        for (PlayerConnection connection : this.limbo.getNetworkManager().getPlayersConnections()) {
+            if (connection.getState().equals(ProtocolState.PLAY)) {
+                if (connection.getProfile().getId().equals(profile.getId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void sendJoinGamePacket(PlayerConnection playerConnection) {
